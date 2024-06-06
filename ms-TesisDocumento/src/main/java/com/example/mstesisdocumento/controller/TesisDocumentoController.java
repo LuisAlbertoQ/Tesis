@@ -12,14 +12,14 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/tesis")
-public class TesisDocumentoController {
+public class TesisDocumentoController{
 
     @Autowired
     private TesisDocumentoService tesisDocumentoService;
-
     @PostMapping("/upload")
     public ResponseEntity<String> uploadFile(@RequestParam("file") MultipartFile file, @RequestParam("idProyecto") Long idProyecto) {
         try {
@@ -28,6 +28,12 @@ public class TesisDocumentoController {
         } catch (IOException e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Fallo en Subir el Archivo");
         }
+    }
+
+    @GetMapping("/list")
+    public ResponseEntity<List<TesisDocumento>> listDocuments() {
+        List<TesisDocumento> documentos = tesisDocumentoService.listarDocumentos();
+        return ResponseEntity.ok().body(documentos);
     }
 
     @GetMapping("/download/{idDocumento}")

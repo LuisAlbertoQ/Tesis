@@ -11,13 +11,13 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.List;
 
 @Service
 public class TesisDocumentoService {
 
     @Autowired
     private TesisDocumentoRepository tesisDocumentoRepository;
-
     private final String uploadDir = "uploads/";
 
     public TesisDocumento saveFile(MultipartFile file, Long idProyecto) throws IOException {
@@ -38,6 +38,10 @@ public class TesisDocumentoService {
         tesisDocumento.setRutaArchivo(filePath.toString());
 
         return tesisDocumentoRepository.save(tesisDocumento);
+    }
+
+    public List<TesisDocumento> listarDocumentos() {
+        return tesisDocumentoRepository.findAll();
     }
 
     public TesisDocumento getFile(Long idDocumento) {
